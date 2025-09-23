@@ -1292,8 +1292,8 @@
             border: 1px solid #ddd;
         }
         
-        /* Estilos para el chat de ventas */
-        .sales-chat {
+        /* NUEVOS ESTILOS PARA EL CHAT CON VENDEDORES */
+        .admin-sellers-chat {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
@@ -1301,28 +1301,54 @@
             border: 1px solid #e9ecef;
         }
         
-        .sales-chat-messages {
-            max-height: 200px;
+        .sellers-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        .seller-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .seller-item:hover {
+            background: #f0f8ff;
+        }
+        
+        .seller-item.active {
+            background: #6a11cb;
+            color: white;
+        }
+        
+        .seller-chat-messages {
+            max-height: 300px;
             overflow-y: auto;
             margin-bottom: 10px;
             padding: 10px;
             background: white;
             border-radius: 5px;
+            border: 1px solid #ddd;
         }
         
-        .sales-chat-input {
+        .seller-chat-input {
             display: flex;
             gap: 10px;
         }
         
-        .sales-chat-input input {
+        .seller-chat-input input {
             flex: 1;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
         
-        .sales-chat-input button {
+        .seller-chat-input button {
             padding: 8px 15px;
             width: auto;
         }
@@ -1660,6 +1686,26 @@
                     <p>Cargando vendedores verificados...</p>
                 </div>
                 
+                <!-- NUEVO: Chat con vendedores -->
+                <h3 class="admin-section-title">Chat con Vendedores</h3>
+                <div class="admin-sellers-chat">
+                    <h4>Lista de Vendedores</h4>
+                    <div class="sellers-list" id="sellersList">
+                        <p>Cargando vendedores...</p>
+                    </div>
+                    
+                    <div id="sellerChatContainer" style="display:none;">
+                        <h4>Chat con: <span id="selectedSellerName"></span></h4>
+                        <div class="seller-chat-messages" id="sellerChatMessages">
+                            <p>No hay mensajes aún.</p>
+                        </div>
+                        <div class="seller-chat-input">
+                            <input type="text" id="sellerChatInput" placeholder="Escribe un mensaje...">
+                            <button class="admin-btn" id="sendSellerMessage">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- NUEVO: Historial de Transacciones -->
                 <h3 class="admin-section-title">Historial de Transacciones</h3>
                 <div class="transaction-history">
@@ -1791,6 +1837,7 @@
         let currentPurchase = null;
         let selectedCategory = null;
         let searchTerm = '';
+        let selectedSellerId = null; // Para el chat con vendedores
         
         // Referencias a elementos del DOM
         const authSection = document.getElementById('authSection');
@@ -1909,6 +1956,14 @@
         // NUEVO: Referencia para contador del carrito
         const navCartCount = document.getElementById('navCartCount');
         
+        // NUEVO: Referencias para el chat con vendedores
+        const sellersList = document.getElementById('sellersList');
+        const sellerChatContainer = document.getElementById('sellerChatContainer');
+        const selectedSellerName = document.getElementById('selectedSellerName');
+        const sellerChatMessages = document.getElementById('sellerChatMessages');
+        const sellerChatInput = document.getElementById('sellerChatInput');
+        const sendSellerMessageBtn = document.getElementById('sendSellerMessage');
+        
         // CORRECCIÓN: Variable para evitar duplicación de productos
         let productsLoaded = false;
         
@@ -1958,6 +2013,7 @@
                     loadPendingPayments();
                     loadVerifiedSellers();
                     loadTransactionHistory();
+                    loadSellersForChat(); // Cargar vendedores para el chat
                 } else if (targetSection === 'productsSection') {
                     // CORRECCIÓN: Evitar duplicación de productos
                     if (!productsLoaded) {
@@ -1968,14 +2024,6 @@
                 }
                 
                 // Cerrar menú en móvil
-                navMenu.classList.remove('active');
-                closeBtn.style.display = 'none';
-            });
-        });
-        
-        // Cerrar menú al hacer clic en enlace
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 closeBtn.style.display = 'none';
             });
@@ -2136,6 +2184,15 @@
             // Cerrar menú en móvil
             navMenu.classList.remove('active');
             closeBtn.style.display = 'none';
+        });
+        
+        // NUEVO: Funcionalidad del chat con vendedores
+        sendSellerMessageBtn.addEventListener('click', sendMessageToSeller);
+        
+        sellerChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessageToSeller();
+            }
         });
         
         // Función para observar elementos y aplicar animación
@@ -3215,23 +3272,6 @@
                                     `;
                                 }
                                 
-                                // NUEVO: Chat de soporte para la venta
-                                let chatSection = '';
-                                if (isAdmin) {
-                                    chatSection = `
-                                        <div class="sales-chat">
-                                            <h5>💬 Chat de Soporte</h5>
-                                            <div class="sales-chat-messages" id="salesChatMessages-${sale.id}">
-                                                <p>Cargando mensajes...</p>
-                                            </div>
-                                            <div class="sales-chat-input">
-                                                <input type="text" id="salesChatInput-${sale.id}" placeholder="Escribe un mensaje...">
-                                                <button class="admin-btn" onclick="sendSalesMessage('${sale.id}')">Enviar</button>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                                
                                 // CORRECCIÓN: Mostrar desglose de cargos
                                 const feesBreakdown = sale.additionalFees ? `
                                     <div class="additional-fees">
@@ -3266,15 +3306,9 @@
                                     </ul>
                                     
                                     ${deliverySection}
-                                    ${chatSection}
                                 `;
                                 
                                 salesList.appendChild(saleElement);
-                                
-                                // Cargar mensajes del chat si es admin
-                                if (isAdmin) {
-                                    loadSalesChatMessages(sale.id);
-                                }
                             });
                             
                             // Añadir event listeners a los botones de entrega
@@ -3734,6 +3768,140 @@
                 });
         }
         
+        // NUEVO: Cargar lista de vendedores para el chat
+        function loadSellersForChat() {
+            if (!isAdmin) return;
+            
+            sellersList.innerHTML = '<p>Cargando vendedores...</p>';
+            
+            db.collection('users')
+                .where('role', '==', 'seller')
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        sellersList.innerHTML = '<p>No hay vendedores registrados.</p>';
+                        return;
+                    }
+                    
+                    sellersList.innerHTML = '';
+                    
+                    querySnapshot.forEach((doc) => {
+                        const seller = doc.data();
+                        const sellerItem = document.createElement('div');
+                        sellerItem.className = 'seller-item';
+                        sellerItem.setAttribute('data-seller-id', doc.id);
+                        sellerItem.innerHTML = `
+                            <strong>${seller.name}</strong>
+                            <br>
+                            <small>${seller.email}</small>
+                        `;
+                        
+                        sellerItem.addEventListener('click', () => {
+                            // Remover clase activa de todos los elementos
+                            document.querySelectorAll('.seller-item').forEach(item => {
+                                item.classList.remove('active');
+                            });
+                            
+                            // Agregar clase activa al elemento seleccionado
+                            sellerItem.classList.add('active');
+                            
+                            // Mostrar chat con el vendedor seleccionado
+                            selectedSellerId = doc.id;
+                            selectedSellerName.textContent = seller.name;
+                            sellerChatContainer.style.display = 'block';
+                            
+                            // Cargar mensajes del chat
+                            loadSellerChatMessages(doc.id);
+                        });
+                        
+                        sellersList.appendChild(sellerItem);
+                    });
+                })
+                .catch((error) => {
+                    sellersList.innerHTML = '<p>Error al cargar los vendedores.</p>';
+                    console.error('Error:', error);
+                });
+        }
+        
+        // NUEVO: Cargar mensajes del chat con un vendedor específico
+        function loadSellerChatMessages(sellerId) {
+            if (!isAdmin) return;
+            
+            sellerChatMessages.innerHTML = '<p>Cargando mensajes...</p>';
+            
+            db.collection('adminSellerChat')
+                .where('sellerId', '==', sellerId)
+                .orderBy('timestamp', 'asc')
+                .get()
+                .then((querySnapshot) => {
+                    sellerChatMessages.innerHTML = '';
+                    
+                    if (querySnapshot.empty) {
+                        sellerChatMessages.innerHTML = '<p>No hay mensajes aún.</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const message = doc.data();
+                        const messageElement = document.createElement('div');
+                        messageElement.className = `message ${message.sender === 'admin' ? 'message-sent' : 'message-received'}`;
+                        messageElement.textContent = `${message.senderName}: ${message.text}`;
+                        sellerChatMessages.appendChild(messageElement);
+                    });
+                    
+                    sellerChatMessages.scrollTop = sellerChatMessages.scrollHeight;
+                })
+                .catch((error) => {
+                    sellerChatMessages.innerHTML = '<p>Error al cargar los mensajes.</p>';
+                    console.error('Error:', error);
+                });
+        }
+        
+        // NUEVO: Enviar mensaje a un vendedor
+        function sendMessageToSeller() {
+            if (!isAdmin || !selectedSellerId) return;
+            
+            const messageText = sellerChatInput.value.trim();
+            if (!messageText) return;
+            
+            const user = auth.currentUser;
+            
+            // Agregar mensaje a la interfaz
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message message-sent';
+            messageElement.textContent = `Admin: ${messageText}`;
+            sellerChatMessages.appendChild(messageElement);
+            
+            // Limpiar input
+            sellerChatInput.value = '';
+            
+            // Desplazar hacia abajo
+            sellerChatMessages.scrollTop = sellerChatMessages.scrollHeight;
+            
+            // Guardar mensaje en la base de datos
+            db.collection('adminSellerChat').add({
+                sellerId: selectedSellerId,
+                text: messageText,
+                sender: 'admin',
+                senderName: user.displayName || user.email,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                // Notificar al vendedor
+                return db.collection('notifications').add({
+                    userId: selectedSellerId,
+                    type: 'admin_message',
+                    message: `Tienes un nuevo mensaje del administrador`,
+                    read: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    from: 'Administrador'
+                });
+            })
+            .catch((error) => {
+                console.error('Error al enviar mensaje:', error);
+            });
+        }
+        
         // Contactar vendedor (función para el admin)
         function contactSeller(userId, userEmail) {
             const message = prompt(`Escribe el mensaje para ${userEmail}:`);
@@ -3851,6 +4019,7 @@
                 showAdminNotification("Solicitud aprobada correctamente", "success");
                 loadVerificationRequests();
                 loadVerifiedSellers();
+                loadSellersForChat(); // Actualizar lista de vendedores para el chat
             })
             .catch((error) => {
                 showAdminNotification("Error al aprobar la solicitud: " + error.message, "error");
@@ -4094,6 +4263,28 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 read: false
             })
+            .then(() => {
+                // NUEVO: Notificar al administrador sobre el mensaje de soporte
+                if (isAdmin) return; // No notificar si el que envía es el admin
+                
+                // Buscar al administrador (thecam35@gmail.com)
+                return db.collection('users')
+                    .where('email', '==', 'thecam35@gmail.com')
+                    .get()
+                    .then((adminSnapshot) => {
+                        if (!adminSnapshot.empty) {
+                            const adminId = adminSnapshot.docs[0].id;
+                            return db.collection('notifications').add({
+                                userId: adminId,
+                                type: 'support_message',
+                                message: `Nuevo mensaje de soporte de ${user.displayName || user.email}`,
+                                read: false,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                                fromUser: user.uid
+                            });
+                        }
+                    });
+            })
             .catch((error) => {
                 console.error('Error al enviar mensaje:', error);
             });
@@ -4179,6 +4370,13 @@
                             } else if (notification.type === 'product_delivered') {
                                 showSection('myPurchases');
                                 loadUserPurchases();
+                            } else if (notification.type === 'support_message' && isAdmin) {
+                                // Si es admin y es un mensaje de soporte, abrir el chat de soporte
+                                chatSupport.style.display = 'flex';
+                                supportChatOpen = true;
+                                unreadMessages = 0;
+                                chatBadge.style.display = 'none';
+                                loadSupportMessages();
                             }
                             
                             notificationsPanel.style.display = 'none';
@@ -4213,94 +4411,6 @@
                 });
         }
         
-        // NUEVO: Cargar mensajes del chat de ventas
-        function loadSalesChatMessages(saleId) {
-            if (!isAdmin) return;
-            
-            const chatContainer = document.getElementById(`salesChatMessages-${saleId}`);
-            if (!chatContainer) return;
-            
-            chatContainer.innerHTML = '<p>Cargando mensajes...</p>';
-            
-            db.collection('salesChat')
-                .where('saleId', '==', saleId)
-                .orderBy('timestamp', 'asc')
-                .get()
-                .then((querySnapshot) => {
-                    chatContainer.innerHTML = '';
-                    
-                    if (querySnapshot.empty) {
-                        chatContainer.innerHTML = '<p>No hay mensajes aún.</p>';
-                        return;
-                    }
-                    
-                    querySnapshot.forEach((doc) => {
-                        const message = doc.data();
-                        const messageElement = document.createElement('div');
-                        messageElement.className = `message ${message.sender === 'admin' ? 'message-sent' : 'message-received'}`;
-                        messageElement.textContent = `${message.senderName}: ${message.text}`;
-                        chatContainer.appendChild(messageElement);
-                    });
-                    
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                })
-                .catch((error) => {
-                    chatContainer.innerHTML = '<p>Error al cargar los mensajes.</p>';
-                    console.error('Error:', error);
-                });
-        }
-        
-        // NUEVO: Enviar mensaje en el chat de ventas
-        function sendSalesMessage(saleId) {
-            if (!isAdmin) return;
-            
-            const input = document.getElementById(`salesChatInput-${saleId}`);
-            const messageText = input.value.trim();
-            if (!messageText) return;
-            
-            const user = auth.currentUser;
-            
-            // Agregar mensaje a la interfaz
-            const chatContainer = document.getElementById(`salesChatMessages-${saleId}`);
-            const messageElement = document.createElement('div');
-            messageElement.className = 'message message-sent';
-            messageElement.textContent = `Admin: ${messageText}`;
-            chatContainer.appendChild(messageElement);
-            
-            // Limpiar input
-            input.value = '';
-            
-            // Desplazar hacia abajo
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            
-            // Guardar mensaje en la base de datos
-            db.collection('salesChat').add({
-                saleId: saleId,
-                text: messageText,
-                sender: 'admin',
-                senderName: user.displayName || user.email,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                // Notificar al vendedor
-                db.collection('purchases').doc(saleId).get()
-                .then((doc) => {
-                    const purchase = doc.data();
-                    return db.collection('notifications').add({
-                        userId: purchase.userId,
-                        type: 'admin_message',
-                        message: `Tienes un nuevo mensaje del administrador sobre tu venta ${saleId.substring(0, 8)}`,
-                        purchaseId: saleId,
-                        read: false,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                });
-            })
-            .catch((error) => {
-                console.error('Error al enviar mensaje:', error);
-            });
-        }
-        
         // Mostrar una sección específica
         function showSection(sectionId) {
             // Ocultar todas las secciones
@@ -4328,6 +4438,7 @@
             loadPendingPayments();
             loadVerifiedSellers();
             loadTransactionHistory();
+            loadSellersForChat(); // Actualizar lista de vendedores para el chat
         });
         
         // Traducir códigos de error
@@ -4359,6 +4470,7 @@
                     loadPendingPayments();
                     loadVerifiedSellers();
                     loadTransactionHistory();
+                    loadSellersForChat(); // Cargar vendedores para el chat
                     showAdminNotification("Bienvenido al panel de administración", "success");
                 }
                 
