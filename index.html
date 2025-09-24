@@ -1052,6 +1052,24 @@
             color: #333;
         }
         
+        .message-admin {
+            align-self: flex-start;
+            background: #ff9800;
+            color: white;
+        }
+        
+        .message-user {
+            align-self: flex-end;
+            background: #2196f3;
+            color: white;
+        }
+        
+        .message-seller {
+            align-self: flex-start;
+            background: #4caf50;
+            color: white;
+        }
+        
         .chat-input-container {
             display: flex;
             padding: 10px;
@@ -1282,6 +1300,11 @@
         
         .proof-btn:hover {
             background: #138496;
+        }
+        
+        .proof-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
         }
         
         .proof-image {
@@ -3580,12 +3603,15 @@
                             });
                         });
                         
-                        // NUEVO: Botón para adjuntar comprobante de pago
+                        // CORRECCIÓN: Botón para adjuntar comprobante de pago - SOLO HABILITADO SI EL PRODUCTO FUE ENTREGADO
                         const proofButton = `
                             <div style="margin-top: 10px;">
-                                <input type="file" id="proofImage-${doc.id}" accept="image/*" style="display: none;">
-                                <button class="proof-btn" onclick="document.getElementById('proofImage-${doc.id}').click()">Adjuntar Comprobante</button>
+                                <input type="file" id="proofImage-${doc.id}" accept="image/*" style="display: none;" ${purchase.productDelivered ? '' : 'disabled'}>
+                                <button class="proof-btn" id="proofBtn-${doc.id}" ${purchase.productDelivered ? '' : 'disabled'} onclick="document.getElementById('proofImage-${doc.id}').click()">
+                                    ${purchase.productDelivered ? 'Adjuntar Comprobante' : 'Esperando entrega del producto'}
+                                </button>
                                 <div id="proofPreview-${doc.id}"></div>
+                                ${!purchase.productDelivered ? '<p><small>El comprobante estará disponible después de que el vendedor entregue el producto</small></p>' : ''}
                             </div>
                         `;
                         
@@ -3844,8 +3870,23 @@
                     querySnapshot.forEach((doc) => {
                         const message = doc.data();
                         const messageElement = document.createElement('div');
-                        messageElement.className = `message ${message.sender === 'admin' ? 'message-sent' : 'message-received'}`;
-                        messageElement.textContent = `${message.senderName}: ${message.text}`;
+                        
+                        // Determinar la clase CSS según el remitente
+                        let messageClass = 'message';
+                        if (message.sender === 'admin') {
+                            messageClass += ' message-admin';
+                        } else {
+                            messageClass += ' message-seller';
+                        }
+                        
+                        messageElement.className = messageClass;
+                        messageElement.innerHTML = `
+                            <div><strong>${message.senderName}:</strong></div>
+                            <div>${message.text}</div>
+                            <div style="font-size: 10px; text-align: right; margin-top: 5px;">
+                                ${message.timestamp?.toDate().toLocaleString()}
+                            </div>
+                        `;
                         sellerChatMessages.appendChild(messageElement);
                     });
                     
@@ -3868,8 +3909,14 @@
             
             // Agregar mensaje a la interfaz
             const messageElement = document.createElement('div');
-            messageElement.className = 'message message-sent';
-            messageElement.textContent = `Admin: ${messageText}`;
+            messageElement.className = 'message message-admin';
+            messageElement.innerHTML = `
+                <div><strong>${user.displayName || user.email} (Admin):</strong></div>
+                <div>${messageText}</div>
+                <div style="font-size: 10px; text-align: right; margin-top: 5px;">
+                    ${new Date().toLocaleString()}
+                </div>
+            `;
             sellerChatMessages.appendChild(messageElement);
             
             // Limpiar input
@@ -4220,8 +4267,23 @@
                     querySnapshot.forEach((doc) => {
                         const message = doc.data();
                         const messageElement = document.createElement('div');
-                        messageElement.className = `message ${message.sender === 'user' ? 'message-sent' : 'message-received'}`;
-                        messageElement.textContent = message.text;
+                        
+                        // Determinar la clase CSS según el remitente
+                        let messageClass = 'message';
+                        if (message.sender === 'user') {
+                            messageClass += ' message-user';
+                        } else {
+                            messageClass += ' message-admin';
+                        }
+                        
+                        messageElement.className = messageClass;
+                        messageElement.innerHTML = `
+                            <div><strong>${message.sender === 'user' ? (user.displayName || user.email) : 'Administrador'}:</strong></div>
+                            <div>${message.text}</div>
+                            <div style="font-size: 10px; text-align: right; margin-top: 5px;">
+                                ${message.timestamp?.toDate().toLocaleString()}
+                            </div>
+                        `;
                         chatMessages.appendChild(messageElement);
                     });
                     
@@ -4244,8 +4306,14 @@
             
             // Agregar mensaje a la interfaz
             const messageElement = document.createElement('div');
-            messageElement.className = 'message message-sent';
-            messageElement.textContent = messageText;
+            messageElement.className = 'message message-user';
+            messageElement.innerHTML = `
+                <div><strong>${user.displayName || user.email}:</strong></div>
+                <div>${messageText}</div>
+                <div style="font-size: 10px; text-align: right; margin-top: 5px;">
+                    ${new Date().toLocaleString()}
+                </div>
+            `;
             chatMessages.appendChild(messageElement);
             
             // Limpiar input
@@ -4280,7 +4348,8 @@
                                 message: `Nuevo mensaje de soporte de ${user.displayName || user.email}`,
                                 read: false,
                                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                fromUser: user.uid
+                                fromUser: user.uid,
+                                fromUserName: user.displayName || user.email
                             });
                         }
                     });
@@ -4319,8 +4388,14 @@
                             // Agregar mensaje a la interfaz si el chat está abierto
                             if (supportChatOpen) {
                                 const messageElement = document.createElement('div');
-                                messageElement.className = 'message message-received';
-                                messageElement.textContent = message.text;
+                                messageElement.className = 'message message-admin';
+                                messageElement.innerHTML = `
+                                    <div><strong>Administrador:</strong></div>
+                                    <div>${message.text}</div>
+                                    <div style="font-size: 10px; text-align: right; margin-top: 5px;">
+                                        ${message.timestamp?.toDate().toLocaleString()}
+                                    </div>
+                                `;
                                 chatMessages.appendChild(messageElement);
                                 chatMessages.scrollTop = chatMessages.scrollHeight;
                             }
@@ -4377,6 +4452,12 @@
                                 unreadMessages = 0;
                                 chatBadge.style.display = 'none';
                                 loadSupportMessages();
+                            } else if (notification.type === 'admin_message' && !isAdmin) {
+                                // Si es vendedor y es un mensaje del admin, abrir el panel de admin
+                                if (currentUserData.role === 'seller') {
+                                    showSection('sellerSales');
+                                    loadSellerSales();
+                                }
                             }
                             
                             notificationsPanel.style.display = 'none';
@@ -4527,3 +4608,4 @@
     </script>
 </body>
 </html>
+
