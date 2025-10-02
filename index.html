@@ -1375,6 +1375,281 @@
             padding: 8px 15px;
             width: auto;
         }
+
+        /* NUEVOS ESTILOS PARA GESTIÓN DE PRODUCTOS DEL USUARIO */
+        .my-products-section {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .my-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .my-product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .my-product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .my-product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .edit-product-btn, .delete-product-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .edit-product-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .edit-product-btn:hover {
+            background: #138496;
+        }
+        
+        .delete-product-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .delete-product-btn:hover {
+            background: #c82333;
+        }
+        
+        /* NUEVOS ESTILOS PARA EL MODAL DE EDICIÓN DE PRODUCTO */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            display: none;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .modal-close:hover {
+            color: #343a40;
+        }
+        
+        /* NUEVOS ESTILOS PARA NOTIFICACIONES EN VENTANA GRANDE */
+        .notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            display: none;
+        }
+        
+        .notification-modal.active {
+            display: flex;
+        }
+        
+        .notification-content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .notification-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .notification-message {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .notification-meta {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .notification-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .notification-close {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .notification-close:hover {
+            background: #2575fc;
+        }
+        
+        /* NUEVOS ESTILOS PARA EL PANEL DE NOTIFICACIONES DEL ADMIN */
+        .admin-notifications-panel {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .notification-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .notification-form h4 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .notification-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .send-notification-btn {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            width: auto;
+            margin-top: 10px;
+        }
+        
+        .send-notification-btn:hover {
+            background: #2575fc;
+        }
+        
+        /* Estilos para el historial de notificaciones enviadas */
+        .notifications-history {
+            margin-top: 30px;
+        }
+        
+        .notification-history-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #6a11cb;
+        }
+        
+        .notification-history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .notification-history-title {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .notification-history-date {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .notification-history-message {
+            margin-bottom: 10px;
+        }
+        
+        .notification-history-recipients {
+            font-size: 14px;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -1426,6 +1701,12 @@
                 
                 <!-- Nuevo elemento para soporte en móvil -->
                 <li id="supportNavItem" style="display:none;"><a class="nav-link" id="showSupportMobile"><i class="fas fa-headset"></i> Soporte</a></li>
+                
+                <!-- NUEVO: Elemento para Mis Productos -->
+                <li id="myProductsNavItem" style="display:none;"><a class="nav-link" data-section="myProductsSection"><i class="fas fa-boxes"></i> Mis Productos</a></li>
+                
+                <!-- NUEVO: Elemento para Notificaciones del Admin -->
+                <li id="adminNotificationsNavItem" style="display:none;"><a class="nav-link" data-section="adminNotificationsSection"><i class="fas fa-bullhorn"></i> Notificaciones</a></li>
                 
                 <li id="logoutNavItem" style="display:none;"><a class="logout-btn" id="navLogoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
                 <span class="close-btn" style="display:none;">×</span>
@@ -1686,6 +1967,38 @@
                 <div id="salesList"></div>
             </div>
             
+            <!-- NUEVA SECCIÓN: Mis Productos -->
+            <div id="myProductsSection" class="section my-products-section">
+                <h2><i class="fas fa-boxes"></i> Mis Productos Publicados</h2>
+                <div id="myProductsList" class="my-products-grid">
+                    <p>Cargando tus productos...</p>
+                </div>
+            </div>
+            
+            <!-- NUEVA SECCIÓN: Notificaciones del Admin -->
+            <div id="adminNotificationsSection" class="section admin-notifications-panel">
+                <h2><i class="fas fa-bullhorn"></i> Notificaciones para Vendedores</h2>
+                
+                <div class="notification-form">
+                    <h4>Enviar Notificación a Todos los Vendedores</h4>
+                    <div class="form-group">
+                        <input type="text" id="notificationTitle" placeholder="Título de la notificación" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="notificationMessage" placeholder="Mensaje de la notificación" required></textarea>
+                    </div>
+                    <button id="sendNotificationBtn" class="send-notification-btn">Enviar Notificación</button>
+                    <div id="notificationMessageStatus" class="message"></div>
+                </div>
+                
+                <div class="notifications-history">
+                    <h4>Historial de Notificaciones Enviadas</h4>
+                    <div id="notificationsHistoryList">
+                        <p>Cargando historial...</p>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Panel de Administración -->
             <div id="adminPanel" class="section admin-panel">
                 <div class="admin-header">
@@ -1832,6 +2145,81 @@
             <button class="notifications-close" id="notificationsClose">×</button>
         </div>
         <div class="notifications-list" id="notificationsList"></div>
+    </div>
+
+    <!-- NUEVO MODAL: Edición de Producto -->
+    <div class="modal-overlay" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Producto</h3>
+                <button class="modal-close" id="closeEditModal">×</button>
+            </div>
+            <form id="editProductForm" onsubmit="return false;">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <input type="text" id="editProductName" placeholder="Nombre del producto" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="editProductDescription" placeholder="Descripción" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="editProductPrice" placeholder="Precio" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <select id="editProductCategory" required>
+                        <option value="">Selecciona categoría</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="Canva">Canva</option>
+                        <option value="Capcut">Capcut</option>
+                        <option value="Spotify">Spotify</option>
+                        <option value="Personalizar">Personalizar</option>
+                        <option value="Diseño Creativo">Diseño Creativo</option>
+                        <option value="Desarrollo Web">Desarrollo Web</option>
+                        <option value="Cursos Online">Cursos Online</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Garantía del producto:</label>
+                    <select id="editProductWarranty" required>
+                        <option value="">Selecciona garantía</option>
+                        <option value="1 mes">1 mes</option>
+                        <option value="2 meses">2 meses</option>
+                        <option value="3 meses">3 meses</option>
+                        <option value="personalizada">Personalizada</option>
+                    </select>
+                </div>
+                <div id="editCustomWarrantyContainer" style="display:none;">
+                    <div class="form-group">
+                        <input type="text" id="editCustomWarranty" placeholder="Especifica la garantía (ej: 15 días, 6 meses)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Imagen del producto (máximo 1MB):</label>
+                    <input type="file" id="editProductImage" accept="image/*" class="file-input">
+                    <div class="preview-container">
+                        <img id="editProductImagePreview" class="preview-image" style="display:none;">
+                    </div>
+                    <p><small>Deja vacío si no quieres cambiar la imagen actual</small></p>
+                </div>
+                <button id="updateProductBtn">Actualizar Producto</button>
+                <div id="editProductMessage" class="message"></div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- NUEVO MODAL: Notificación en Ventana Grande -->
+    <div class="notification-modal" id="notificationModal">
+        <div class="notification-content">
+            <div class="notification-header">
+                <div class="notification-title" id="notificationModalTitle">Notificación</div>
+                <button class="modal-close" id="closeNotificationModal">×</button>
+            </div>
+            <div class="notification-meta" id="notificationModalMeta"></div>
+            <div class="notification-message" id="notificationModalMessage"></div>
+            <div class="notification-actions">
+                <button class="notification-close" id="closeNotificationBtn">Cerrar</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1995,6 +2383,45 @@
         let unreadMessages = 0;
         let unreadNotifications = 0;
         
+        // NUEVO: Referencias para Mis Productos
+        const myProductsSection = document.getElementById('myProductsSection');
+        const myProductsList = document.getElementById('myProductsList');
+        const myProductsNavItem = document.getElementById('myProductsNavItem');
+        
+        // NUEVO: Referencias para Notificaciones del Admin
+        const adminNotificationsSection = document.getElementById('adminNotificationsSection');
+        const adminNotificationsNavItem = document.getElementById('adminNotificationsNavItem');
+        const notificationTitle = document.getElementById('notificationTitle');
+        const notificationMessage = document.getElementById('notificationMessage');
+        const sendNotificationBtn = document.getElementById('sendNotificationBtn');
+        const notificationMessageStatus = document.getElementById('notificationMessageStatus');
+        const notificationsHistoryList = document.getElementById('notificationsHistoryList');
+        
+        // NUEVO: Referencias para el modal de edición de producto
+        const editProductModal = document.getElementById('editProductModal');
+        const closeEditModal = document.getElementById('closeEditModal');
+        const editProductForm = document.getElementById('editProductForm');
+        const editProductId = document.getElementById('editProductId');
+        const editProductName = document.getElementById('editProductName');
+        const editProductDescription = document.getElementById('editProductDescription');
+        const editProductPrice = document.getElementById('editProductPrice');
+        const editProductCategory = document.getElementById('editProductCategory');
+        const editProductWarranty = document.getElementById('editProductWarranty');
+        const editCustomWarrantyContainer = document.getElementById('editCustomWarrantyContainer');
+        const editCustomWarranty = document.getElementById('editCustomWarranty');
+        const editProductImage = document.getElementById('editProductImage');
+        const editProductImagePreview = document.getElementById('editProductImagePreview');
+        const updateProductBtn = document.getElementById('updateProductBtn');
+        const editProductMessage = document.getElementById('editProductMessage');
+        
+        // NUEVO: Referencias para el modal de notificación
+        const notificationModal = document.getElementById('notificationModal');
+        const closeNotificationModal = document.getElementById('closeNotificationModal');
+        const closeNotificationBtn = document.getElementById('closeNotificationBtn');
+        const notificationModalTitle = document.getElementById('notificationModalTitle');
+        const notificationModalMeta = document.getElementById('notificationModalMeta');
+        const notificationModalMessage = document.getElementById('notificationModalMessage');
+        
         // Funcionalidad del menú hamburguesa
         hamburger.addEventListener('click', () => {
             navMenu.classList.add('active');
@@ -2044,6 +2471,10 @@
                         loadCategories();
                         productsLoaded = true;
                     }
+                } else if (targetSection === 'myProductsSection') {
+                    loadMyProducts();
+                } else if (targetSection === 'adminNotificationsSection') {
+                    loadNotificationsHistory();
                 }
                 
                 // Cerrar menú en móvil
@@ -2126,6 +2557,17 @@
             } else {
                 customWarrantyContainer.style.display = 'none';
                 customWarranty.required = false;
+            }
+        });
+        
+        // NUEVO: Mostrar/ocultar campo de garantía personalizada en edición
+        editProductWarranty.addEventListener('change', () => {
+            if (editProductWarranty.value === 'personalizada') {
+                editCustomWarrantyContainer.style.display = 'block';
+                editCustomWarranty.required = true;
+            } else {
+                editCustomWarrantyContainer.style.display = 'none';
+                editCustomWarranty.required = false;
             }
         });
         
@@ -2218,6 +2660,36 @@
             }
         });
         
+        // NUEVO: Funcionalidad del modal de edición de producto
+        closeEditModal.addEventListener('click', () => {
+            editProductModal.classList.remove('active');
+        });
+        
+        // NUEVO: Vista previa de imagen en edición de producto
+        editProductImage.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editProductImagePreview.src = e.target.result;
+                    editProductImagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // NUEVO: Funcionalidad del modal de notificación
+        closeNotificationModal.addEventListener('click', () => {
+            notificationModal.classList.remove('active');
+        });
+        
+        closeNotificationBtn.addEventListener('click', () => {
+            notificationModal.classList.remove('active');
+        });
+        
+        // NUEVO: Enviar notificación a todos los vendedores
+        sendNotificationBtn.addEventListener('click', sendNotificationToSellers);
+        
         // Función para observar elementos y aplicar animación
         function observeElements() {
             const observer = new IntersectionObserver((entries) => {
@@ -2258,10 +2730,12 @@
                     
                     if (currentUserData.role === 'seller') {
                         salesNavItem.style.display = 'block';
+                        myProductsNavItem.style.display = 'block';
                     }
                     
                     if (isAdmin) {
                         adminNavItem.style.display = 'block';
+                        adminNotificationsNavItem.style.display = 'block';
                     }
                 }
             } else {
@@ -2275,6 +2749,8 @@
                 userInfoNavItem.style.display = 'none';
                 notificationsNavItem.style.display = 'none';
                 supportNavItem.style.display = 'none';
+                myProductsNavItem.style.display = 'none';
+                adminNotificationsNavItem.style.display = 'none';
             }
         }
         
@@ -2306,6 +2782,357 @@
                     mobileShowVerificationFormBtn.style.display = 'none';
                 }
             }
+        }
+        
+        // NUEVO: Cargar productos del usuario
+        function loadMyProducts() {
+            const user = auth.currentUser;
+            if (!user || currentUserData.role !== 'seller') return;
+            
+            myProductsList.innerHTML = '<p>Cargando tus productos...</p>';
+            
+            db.collection('productos')
+                .where('userId', '==', user.uid)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        myProductsList.innerHTML = '<p>No tienes productos publicados.</p>';
+                        return;
+                    }
+                    
+                    myProductsList.innerHTML = '';
+                    
+                    querySnapshot.forEach((doc) => {
+                        const product = doc.data();
+                        const productElement = document.createElement('div');
+                        productElement.className = 'my-product-card';
+                        
+                        // Mostrar imagen del producto si existe
+                        const productImageHTML = product.image 
+                            ? `<img src="${product.image}" alt="${product.name}" class="product-image">`
+                            : `<div class="product-image">Imagen del producto</div>`;
+                        
+                        // Mostrar información de garantía
+                        const warrantyHTML = product.warranty 
+                            ? `<div class="warranty-info">Garantía: <span class="warranty-badge">${product.warranty}</span></div>`
+                            : '';
+                        
+                        productElement.innerHTML = `
+                            ${productImageHTML}
+                            <div class="product-title">${product.name}</div>
+                            <div class="product-price">$${product.price.toFixed(2)}</div>
+                            <div class="product-category">${product.category}</div>
+                            ${warrantyHTML}
+                            <div class="product-description">${product.description}</div>
+                            
+                            <div class="my-product-actions">
+                                <button class="edit-product-btn" data-id="${doc.id}" data-product='${JSON.stringify(product)}'>Editar</button>
+                                <button class="delete-product-btn" data-id="${doc.id}">Eliminar</button>
+                            </div>
+                        `;
+                        myProductsList.appendChild(productElement);
+                    });
+                    
+                    // Añadir event listeners a los botones
+                    document.querySelectorAll('.edit-product-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const productId = e.target.getAttribute('data-id');
+                            const product = JSON.parse(e.target.getAttribute('data-product'));
+                            openEditProductModal(productId, product);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-product-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const productId = e.target.getAttribute('data-id');
+                            deleteProduct(productId);
+                        });
+                    });
+                    
+                    // Iniciar observación de elementos para animación
+                    setTimeout(observeElements, 100);
+                })
+                .catch((error) => {
+                    myProductsList.innerHTML = '<p>Error al cargar tus productos.</p>';
+                    console.error('Error:', error);
+                });
+        }
+        
+        // NUEVO: Abrir modal de edición de producto
+        function openEditProductModal(productId, product) {
+            // Llenar el formulario con los datos del producto
+            editProductId.value = productId;
+            editProductName.value = product.name;
+            editProductDescription.value = product.description;
+            editProductPrice.value = product.price;
+            editProductCategory.value = product.category;
+            
+            // Configurar la garantía
+            if (product.warranty === '1 mes' || product.warranty === '2 meses' || product.warranty === '3 meses') {
+                editProductWarranty.value = product.warranty;
+                editCustomWarrantyContainer.style.display = 'none';
+            } else {
+                editProductWarranty.value = 'personalizada';
+                editCustomWarranty.value = product.warranty;
+                editCustomWarrantyContainer.style.display = 'block';
+            }
+            
+            // Mostrar imagen actual si existe
+            if (product.image) {
+                editProductImagePreview.src = product.image;
+                editProductImagePreview.style.display = 'block';
+            } else {
+                editProductImagePreview.style.display = 'none';
+            }
+            
+            // Mostrar el modal
+            editProductModal.classList.add('active');
+        }
+        
+        // NUEVO: Actualizar producto
+        updateProductBtn.addEventListener('click', async () => {
+            const productId = editProductId.value;
+            const name = editProductName.value;
+            const description = editProductDescription.value;
+            const price = parseFloat(editProductPrice.value);
+            const category = editProductCategory.value;
+            const warranty = editProductWarranty.value === 'personalizada' ? editCustomWarranty.value : editProductWarranty.value;
+            const productImage = editProductImage.files[0];
+            const messageElement = editProductMessage;
+            
+            // Validaciones
+            if (!name || !description || !price || !category || !warranty) {
+                showMessage("Por favor, completa todos los campos", "error", messageElement);
+                return;
+            }
+            
+            try {
+                let updateData = {
+                    name: name,
+                    description: description,
+                    price: price,
+                    category: category,
+                    warranty: warranty,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Si hay una nueva imagen, convertirla a Base64
+                if (productImage) {
+                    // Validar tamaño de imagen (máximo 1MB)
+                    const maxSize = 1 * 1024 * 1024; // 1MB
+                    if (productImage.size > maxSize) {
+                        showMessage("La imagen del producto debe ser menor a 1MB", "error", messageElement);
+                        return;
+                    }
+                    
+                    const productImageBase64 = await convertImageToBase64(productImage);
+                    updateData.image = productImageBase64;
+                }
+                
+                // Actualizar producto
+                await db.collection('productos').doc(productId).update(updateData);
+                
+                showMessage("¡Producto actualizado con éxito!", "success", messageElement);
+                
+                // Cerrar modal después de un tiempo
+                setTimeout(() => {
+                    editProductModal.classList.remove('active');
+                    loadMyProducts();
+                    loadProducts(); // Actualizar también la lista general de productos
+                }, 1500);
+                
+            } catch (error) {
+                showMessage("Error al actualizar el producto: " + error.message, "error", messageElement);
+            }
+        });
+        
+        // NUEVO: Eliminar producto
+        function deleteProduct(productId) {
+            if (confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.")) {
+                db.collection('productos').doc(productId).delete()
+                    .then(() => {
+                        showAdminNotification("Producto eliminado correctamente", "success");
+                        loadMyProducts();
+                        loadProducts(); // Actualizar también la lista general de productos
+                        updateCategoryCounts();
+                    })
+                    .catch((error) => {
+                        showAdminNotification("Error al eliminar el producto: " + error.message, "error");
+                    });
+            }
+        }
+        
+        // NUEVO: Enviar notificación a todos los vendedores
+        function sendNotificationToSellers() {
+            const title = notificationTitle.value;
+            const message = notificationMessage.value;
+            const messageElement = notificationMessageStatus;
+            
+            // Validaciones
+            if (!title || !message) {
+                showMessage("Por favor, completa todos los campos", "error", messageElement);
+                return;
+            }
+            
+            // Obtener todos los vendedores
+            db.collection('users')
+                .where('role', '==', 'seller')
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        showMessage("No hay vendedores registrados", "error", messageElement);
+                        return;
+                    }
+                    
+                    const batch = db.batch();
+                    const sellerIds = [];
+                    
+                    querySnapshot.forEach((doc) => {
+                        sellerIds.push(doc.id);
+                        
+                        const notificationRef = db.collection('notifications').doc();
+                        batch.set(notificationRef, {
+                            userId: doc.id,
+                            type: 'admin_broadcast',
+                            title: title,
+                            message: message,
+                            read: false,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            from: 'Administrador'
+                        });
+                    });
+                    
+                    // Ejecutar todas las operaciones en lote
+                    return batch.commit().then(() => {
+                        // Guardar en el historial de notificaciones
+                        return db.collection('adminNotificationsHistory').add({
+                            title: title,
+                            message: message,
+                            recipients: sellerIds.length,
+                            sentAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            sentBy: auth.currentUser.email
+                        });
+                    });
+                })
+                .then(() => {
+                    showMessage(`Notificación enviada a todos los vendedores`, "success", messageElement);
+                    notificationTitle.value = '';
+                    notificationMessage.value = '';
+                    loadNotificationsHistory();
+                })
+                .catch((error) => {
+                    showMessage("Error al enviar la notificación: " + error.message, "error", messageElement);
+                });
+        }
+        
+        // NUEVO: Cargar historial de notificaciones enviadas
+        function loadNotificationsHistory() {
+            if (!isAdmin) return;
+            
+            notificationsHistoryList.innerHTML = '<p>Cargando historial...</p>';
+            
+            db.collection('adminNotificationsHistory')
+                .orderBy('sentAt', 'desc')
+                .limit(20)
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.empty) {
+                        notificationsHistoryList.innerHTML = '<p>No hay notificaciones enviadas.</p>';
+                        return;
+                    }
+                    
+                    notificationsHistoryList.innerHTML = '';
+                    
+                    querySnapshot.forEach((doc) => {
+                        const notification = doc.data();
+                        const notificationElement = document.createElement('div');
+                        notificationElement.className = 'notification-history-item';
+                        notificationElement.innerHTML = `
+                            <div class="notification-history-header">
+                                <div class="notification-history-title">${notification.title}</div>
+                                <div class="notification-history-date">${notification.sentAt?.toDate().toLocaleString()}</div>
+                            </div>
+                            <div class="notification-history-message">${notification.message}</div>
+                            <div class="notification-history-recipients">Enviada a ${notification.recipients} vendedores por ${notification.sentBy}</div>
+                        `;
+                        notificationsHistoryList.appendChild(notificationElement);
+                    });
+                })
+                .catch((error) => {
+                    notificationsHistoryList.innerHTML = '<p>Error al cargar el historial.</p>';
+                    console.error('Error:', error);
+                });
+        }
+        
+        // NUEVO: Mostrar notificación en ventana grande
+        function showNotificationModal(notification) {
+            notificationModalTitle.textContent = notification.title || 'Notificación';
+            notificationModalMeta.textContent = `De: ${notification.from} - ${notification.createdAt?.toDate().toLocaleString()}`;
+            notificationModalMessage.textContent = notification.message;
+            notificationModal.classList.add('active');
+            
+            // Marcar como leída si no lo está
+            if (!notification.read && notification.id) {
+                db.collection('notifications').doc(notification.id).update({
+                    read: true
+                });
+            }
+        }
+        
+        // NUEVO: Modificar la función loadNotifications para abrir notificaciones en ventana grande
+        function loadNotifications() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            notificationsList.innerHTML = '<p>Cargando notificaciones...</p>';
+            
+            db.collection('notifications')
+                .where('userId', '==', user.uid)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then((querySnapshot) => {
+                    notificationsList.innerHTML = '';
+                    
+                    if (querySnapshot.empty) {
+                        notificationsList.innerHTML = '<p>No tienes notificaciones.</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const notification = doc.data();
+                        const notificationElement = document.createElement('div');
+                        notificationElement.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                        notificationElement.innerHTML = `
+                            <div><strong>${notification.title || 'Notificación'}</strong></div>
+                            <div>${notification.message}</div>
+                            <div class="notification-time">${notification.createdAt?.toDate().toLocaleString()}</div>
+                        `;
+                        
+                        notificationElement.addEventListener('click', () => {
+                            // Marcar como leída
+                            if (!notification.read) {
+                                db.collection('notifications').doc(doc.id).update({
+                                    read: true
+                                });
+                            }
+                            
+                            // Mostrar en ventana grande
+                            showNotificationModal({
+                                ...notification,
+                                id: doc.id
+                            });
+                            
+                            notificationsPanel.style.display = 'none';
+                        });
+                        
+                        notificationsList.appendChild(notificationElement);
+                    });
+                })
+                .catch((error) => {
+                    notificationsList.innerHTML = '<p>Error al cargar las notificaciones.</p>';
+                    console.error('Error:', error);
+                });
         }
         
         // NUEVO: Cargar categorías
@@ -2697,6 +3524,7 @@
                 document.getElementById('productImagePreview').style.display = 'none';
                 customWarrantyContainer.style.display = 'none';
                 loadProducts();
+                loadMyProducts();
                 updateCategoryCounts();
             } catch (error) {
                 showMessage("Error al publicar el producto: " + error.message, "error", messageElement);
@@ -4404,74 +5232,6 @@
                 });
         }
         
-        // NUEVO: Cargar notificaciones
-        function loadNotifications() {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            notificationsList.innerHTML = '<p>Cargando notificaciones...</p>';
-            
-            db.collection('notifications')
-                .where('userId', '==', user.uid)
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then((querySnapshot) => {
-                    notificationsList.innerHTML = '';
-                    
-                    if (querySnapshot.empty) {
-                        notificationsList.innerHTML = '<p>No tienes notificaciones.</p>';
-                        return;
-                    }
-                    
-                    querySnapshot.forEach((doc) => {
-                        const notification = doc.data();
-                        const notificationElement = document.createElement('div');
-                        notificationElement.className = `notification-item ${notification.read ? '' : 'unread'}`;
-                        notificationElement.innerHTML = `
-                            <div>${notification.message}</div>
-                            <div class="notification-time">${notification.createdAt?.toDate().toLocaleString()}</div>
-                        `;
-                        
-                        notificationElement.addEventListener('click', () => {
-                            // Marcar como leída
-                            db.collection('notifications').doc(doc.id).update({
-                                read: true
-                            });
-                            
-                            // Redirigir según el tipo de notificación
-                            if (notification.type === 'new_purchase') {
-                                showSection('sellerSales');
-                                loadSellerSales();
-                            } else if (notification.type === 'product_delivered') {
-                                showSection('myPurchases');
-                                loadUserPurchases();
-                            } else if (notification.type === 'support_message' && isAdmin) {
-                                // Si es admin y es un mensaje de soporte, abrir el chat de soporte
-                                chatSupport.style.display = 'flex';
-                                supportChatOpen = true;
-                                unreadMessages = 0;
-                                chatBadge.style.display = 'none';
-                                loadSupportMessages();
-                            } else if (notification.type === 'admin_message' && !isAdmin) {
-                                // Si es vendedor y es un mensaje del admin, abrir el panel de admin
-                                if (currentUserData.role === 'seller') {
-                                    showSection('sellerSales');
-                                    loadSellerSales();
-                                }
-                            }
-                            
-                            notificationsPanel.style.display = 'none';
-                        });
-                        
-                        notificationsList.appendChild(notificationElement);
-                    });
-                })
-                .catch((error) => {
-                    notificationsList.innerHTML = '<p>Error al cargar las notificaciones.</p>';
-                    console.error('Error:', error);
-                });
-        }
-        
         // NUEVO: Escuchar nuevas notificaciones
         function listenForNotifications() {
             const user = auth.currentUser;
@@ -4552,6 +5312,7 @@
                     loadVerifiedSellers();
                     loadTransactionHistory();
                     loadSellersForChat(); // Cargar vendedores para el chat
+                    loadNotificationsHistory();
                     showAdminNotification("Bienvenido al panel de administración", "success");
                 }
                 
@@ -4608,6 +5369,7 @@
     </script>
 </body>
 </html>
+
 
 
 
