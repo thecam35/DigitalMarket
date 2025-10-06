@@ -1778,31 +1778,6 @@
                         <input type="tel" id="mobilePhoneNumber" placeholder="Número de teléfono de contacto" required>
                     </div>
                     
-                    <div class="image-warning">
-                        <strong>Importante:</strong> Para verificar tu identidad, necesitamos dos fotografías:
-                        <ol>
-                            <li>Foto de tu documento de identidad (con los dígitos sensibles, códigos de barras y QR tapados, solo mostrando tu rostro)</li>
-                            <li>Selfie tuyo sosteniendo el documento (mostrando claramente tu rostro)</li>
-                        </ol>
-                        Asegúrate de que las imágenes sean claras y legibles. Tapa toda información sensible como números de identificación, códigos de barras y códigos QR.
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Foto de documento (solo rostro visible, información sensible tapada):</label>
-                        <input type="file" id="mobileIdPhoto" accept="image/*" class="file-input" required>
-                        <div class="preview-container">
-                            <img id="mobileIdPhotoPreview" class="preview-image" style="display:none;">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Selfie con documento (mostrando rostro):</label>
-                        <input type="file" id="mobileSelfiePhoto" accept="image/*" class="file-input" required>
-                        <div class="preview-container">
-                            <img id="mobileSelfiePhotoPreview" class="preview-image" style="display:none;">
-                        </div>
-                    </div>
-                    
                     <button id="mobileSubmitVerificationBtn">Enviar Solicitud de Verificación</button>
                     <div id="mobileVerificationMessage" class="message"></div>
                 </form>
@@ -1889,31 +1864,6 @@
                         </div>
                         <div class="form-group">
                             <input type="tel" id="phoneNumber" placeholder="Número de teléfono de contacto" required>
-                        </div>
-                        
-                        <div class="image-warning">
-                            <strong>Importante:</strong> Para verificar tu identidad, necesitamos dos fotografías:
-                            <ol>
-                                <li>Foto de tu documento de identidad (con los dígitos sensibles, códigos de barras y QR tapados, solo mostrando tu rostro)</li>
-                                <li>Selfie tuyo sosteniendo el documento (mostrando claramente tu rostro)</li>
-                            </ol>
-                            Asegúrate de que las imágenes sean claras y legibles. Tapa toda información sensible como números de identificación, códigos de barras y códigos QR.
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Foto de documento (solo rostro visible, información sensible tapada):</label>
-                            <input type="file" id="idPhoto" accept="image/*" class="file-input" required>
-                            <div class="preview-container">
-                                <img id="idPhotoPreview" class="preview-image" style="display:none;">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Selfie con documento (mostrando rostro):</label>
-                            <input type="file" id="selfiePhoto" accept="image/*" class="file-input" required>
-                            <div class="preview-container">
-                                <img id="selfiePhotoPreview" class="preview-image" style="display:none;">
-                            </div>
                         </div>
                         
                         <button id="submitVerificationBtn">Enviar Solicitud de Verificación</button>
@@ -3312,7 +3262,7 @@
             }, 5000);
         }
         
-        // Convertir imagen a Base64
+        // CORRECCIÓN: Función corregida para convertir imagen a Base64
         function convertImageToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -3323,31 +3273,6 @@
         }
         
         // Vista previa de imágenes
-        document.getElementById('idPhoto').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('idPhotoPreview').src = e.target.result;
-                    document.getElementById('idPhotoPreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        document.getElementById('selfiePhoto').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('selfiePhotoPreview').src = e.target.result;
-                    document.getElementById('selfiePhotoPreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        // NUEVO: Vista previa de imagen del producto
         document.getElementById('productImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -3360,26 +3285,14 @@
             }
         });
         
-        // CORRECCIÓN: Vista previa de imágenes para formulario móvil
-        document.getElementById('mobileIdPhoto').addEventListener('change', function(e) {
+        // NUEVO: Vista previa de imagen en edición de producto
+        document.getElementById('editProductImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('mobileIdPhotoPreview').src = e.target.result;
-                    document.getElementById('mobileIdPhotoPreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        document.getElementById('mobileSelfiePhoto').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('mobileSelfiePhotoPreview').src = e.target.result;
-                    document.getElementById('mobileSelfiePhotoPreview').style.display = 'block';
+                    document.getElementById('editProductImagePreview').src = e.target.result;
+                    document.getElementById('editProductImagePreview').style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
@@ -3540,25 +3453,11 @@
             const businessName = document.getElementById('mobileBusinessName').value;
             const businessDescription = document.getElementById('mobileBusinessDescription').value;
             const phoneNumber = document.getElementById('mobilePhoneNumber').value;
-            const idPhoto = document.getElementById('mobileIdPhoto').files[0];
-            const selfiePhoto = document.getElementById('mobileSelfiePhoto').files[0];
             const messageElement = mobileVerificationMessage;
             
             // Validaciones
-            if (!fullName || !country || !idNumber || !binanceId || !phoneNumber || !idPhoto || !selfiePhoto) {
+            if (!fullName || !country || !idNumber || !binanceId || !phoneNumber) {
                 showMessage("Por favor, completa todos los campos obligatorios", "error", messageElement);
-                return;
-            }
-            
-            // Validar tamaño de imágenes (máximo 2MB cada una)
-            const maxSize = 2 * 1024 * 1024; // 2MB
-            if (idPhoto.size > maxSize) {
-                showMessage("La foto del documento debe ser menor a 2MB", "error", messageElement);
-                return;
-            }
-            
-            if (selfiePhoto.size > maxSize) {
-                showMessage("El selfie debe ser menor a 2MB", "error", messageElement);
                 return;
             }
             
@@ -3569,10 +3468,6 @@
             }
             
             try {
-                // Convertir imágenes a Base64
-                const idPhotoBase64 = await convertImageToBase64(idPhoto);
-                const selfiePhotoBase64 = await convertImageToBase64(selfiePhoto);
-                
                 // Enviar solicitud de verificación
                 await db.collection('sellerVerifications').add({
                     userId: user.uid,
@@ -3585,8 +3480,6 @@
                     businessName: businessName,
                     businessDescription: businessDescription,
                     phoneNumber: phoneNumber,
-                    idPhoto: idPhotoBase64,
-                    selfiePhoto: selfiePhotoBase64,
                     status: 'pending',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     reviewedAt: null,
@@ -3624,25 +3517,11 @@
             const businessName = document.getElementById('businessName').value;
             const businessDescription = document.getElementById('businessDescription').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
-            const idPhoto = document.getElementById('idPhoto').files[0];
-            const selfiePhoto = document.getElementById('selfiePhoto').files[0];
             const messageElement = document.getElementById('verificationMessage');
             
             // Validaciones
-            if (!fullName || !country || !idNumber || !binanceId || !phoneNumber || !idPhoto || !selfiePhoto) {
+            if (!fullName || !country || !idNumber || !binanceId || !phoneNumber) {
                 showMessage("Por favor, completa todos los campos obligatorios", "error", messageElement);
-                return;
-            }
-            
-            // Validar tamaño de imágenes (máximo 2MB cada una)
-            const maxSize = 2 * 1024 * 1024; // 2MB
-            if (idPhoto.size > maxSize) {
-                showMessage("La foto del documento debe ser menor a 2MB", "error", messageElement);
-                return;
-            }
-            
-            if (selfiePhoto.size > maxSize) {
-                showMessage("El selfie debe ser menor a 2MB", "error", messageElement);
                 return;
             }
             
@@ -3653,10 +3532,6 @@
             }
             
             try {
-                // Convertir imágenes a Base64
-                const idPhotoBase64 = await convertImageToBase64(idPhoto);
-                const selfiePhotoBase64 = await convertImageToBase64(selfiePhoto);
-                
                 // Enviar solicitud de verificación
                 await db.collection('sellerVerifications').add({
                     userId: user.uid,
@@ -3669,8 +3544,6 @@
                     businessName: businessName,
                     businessDescription: businessDescription,
                     phoneNumber: phoneNumber,
-                    idPhoto: idPhotoBase64,
-                    selfiePhoto: selfiePhotoBase64,
                     status: 'pending',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     reviewedAt: null,
@@ -4327,17 +4200,6 @@
                             <p><strong>Descripción:</strong> ${verification.businessDescription || 'No especificada'}</p>
                             <p><strong>Teléfono:</strong> ${verification.phoneNumber}</p>
                             <p><strong>Fecha de solicitud:</strong> ${verification.createdAt?.toDate().toLocaleString()}</p>
-                            
-                            <div class="verification-images">
-                                <div>
-                                    <p><strong>Foto de documento:</strong></p>
-                                    <img src="${verification.idPhoto}" alt="Foto de documento">
-                                </div>
-                                <div>
-                                    <p><strong>Selfie con documento:</strong></p>
-                                    <img src="${verification.selfiePhoto}" alt="Selfie con documento">
-                                </div>
-                            </div>
                             
                             <div class="admin-actions">
                                 <button class="admin-btn approve-btn" data-id="${doc.id}" data-userid="${verification.userId}">Aprobar</button>
@@ -5369,6 +5231,7 @@
     </script>
 </body>
 </html>
+
 
 
 
