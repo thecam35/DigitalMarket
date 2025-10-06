@@ -2023,7 +2023,33 @@
                     <div class="form-group">
                         <select id="productCategory" required>
                             <option value="">Selecciona categoría</option>
+                            <!-- CATEGORÍAS ACTUALIZADAS SIN DUPLICADOS -->
                             <option value="Netflix">Netflix</option>
+                            <option value="Amazon Prime Video">Amazon Prime Video</option>
+                            <option value="Disney+">Disney+</option>
+                            <option value="HBO Max (Max)">HBO Max (Max)</option>
+                            <option value="Apple TV+">Apple TV+</option>
+                            <option value="Paramount+">Paramount+</option>
+                            <option value="Peacock">Peacock</option>
+                            <option value="Hulu">Hulu</option>
+                            <option value="Star+">Star+</option>
+                            <option value="Crunchyroll">Crunchyroll</option>
+                            <option value="Funimation">Funimation</option>
+                            <option value="Pluto TV">Pluto TV</option>
+                            <option value="Tubi">Tubi</option>
+                            <option value="Plex TV">Plex TV</option>
+                            <option value="Rakuten TV">Rakuten TV</option>
+                            <option value="Vix">Vix</option>
+                            <option value="Claro Video">Claro Video</option>
+                            <option value="Movistar Play">Movistar Play</option>
+                            <option value="Filmin">Filmin</option>
+                            <option value="Mubi">Mubi</option>
+                            <option value="Canela TV">Canela TV</option>
+                            <option value="The Roku Channel">The Roku Channel</option>
+                            <option value="Google TV">Google TV</option>
+                            <option value="YouTube Movies">YouTube Movies</option>
+                            <option value="Apple iTunes Movies">Apple iTunes Movies</option>
+                            <option value="Cine.Ar">Cine.Ar</option>
                             <option value="Canva">Canva</option>
                             <option value="Capcut">Capcut</option>
                             <option value="Spotify">Spotify</option>
@@ -2118,7 +2144,33 @@
                 <div class="form-group">
                     <select id="editProductCategory" required>
                         <option value="">Selecciona categoría</option>
+                        <!-- CATEGORÍAS ACTUALIZADAS SIN DUPLICADOS -->
                         <option value="Netflix">Netflix</option>
+                        <option value="Amazon Prime Video">Amazon Prime Video</option>
+                        <option value="Disney+">Disney+</option>
+                        <option value="HBO Max (Max)">HBO Max (Max)</option>
+                        <option value="Apple TV+">Apple TV+</option>
+                        <option value="Paramount+">Paramount+</option>
+                        <option value="Peacock">Peacock</option>
+                        <option value="Hulu">Hulu</option>
+                        <option value="Star+">Star+</option>
+                        <option value="Crunchyroll">Crunchyroll</option>
+                        <option value="Funimation">Funimation</option>
+                        <option value="Pluto TV">Pluto TV</option>
+                        <option value="Tubi">Tubi</option>
+                        <option value="Plex TV">Plex TV</option>
+                        <option value="Rakuten TV">Rakuten TV</option>
+                        <option value="Vix">Vix</option>
+                        <option value="Claro Video">Claro Video</option>
+                        <option value="Movistar Play">Movistar Play</option>
+                        <option value="Filmin">Filmin</option>
+                        <option value="Mubi">Mubi</option>
+                        <option value="Canela TV">Canela TV</option>
+                        <option value="The Roku Channel">The Roku Channel</option>
+                        <option value="Google TV">Google TV</option>
+                        <option value="YouTube Movies">YouTube Movies</option>
+                        <option value="Apple iTunes Movies">Apple iTunes Movies</option>
+                        <option value="Cine.Ar">Cine.Ar</option>
                         <option value="Canva">Canva</option>
                         <option value="Capcut">Capcut</option>
                         <option value="Spotify">Spotify</option>
@@ -3087,10 +3139,15 @@
         
         // NUEVO: Cargar categorías
         function loadCategories() {
-            // Categorías predefinidas
+            // CATEGORÍAS ACTUALIZADAS SIN DUPLICADOS
             const categories = [
-                "Netflix", "Canva", "Capcut", "Spotify", "Personalizar", 
-                "Diseño Creativo", "Desarrollo Web", "Cursos Online"
+                "Netflix", "Amazon Prime Video", "Disney+", "HBO Max (Max)", "Apple TV+",
+                "Paramount+", "Peacock", "Hulu", "Star+", "Crunchyroll", "Funimation",
+                "Pluto TV", "Tubi", "Plex TV", "Rakuten TV", "Vix", "Claro Video",
+                "Movistar Play", "Filmin", "Mubi", "Canela TV", "The Roku Channel",
+                "Google TV", "YouTube Movies", "Apple iTunes Movies", "Cine.Ar",
+                "Canva", "Capcut", "Spotify", "Personalizar", "Diseño Creativo", 
+                "Desarrollo Web", "Cursos Online"
             ];
             
             // Limpiar listas
@@ -3151,8 +3208,13 @@
                     
                     // Inicializar contadores
                     const categories = [
-                        "Netflix", "Canva", "Capcut", "Spotify", "Personalizar", 
-                        "Diseño Creativo", "Desarrollo Web", "Cursos Online"
+                        "Netflix", "Amazon Prime Video", "Disney+", "HBO Max (Max)", "Apple TV+",
+                        "Paramount+", "Peacock", "Hulu", "Star+", "Crunchyroll", "Funimation",
+                        "Pluto TV", "Tubi", "Plex TV", "Rakuten TV", "Vix", "Claro Video",
+                        "Movistar Play", "Filmin", "Mubi", "Canela TV", "The Roku Channel",
+                        "Google TV", "YouTube Movies", "Apple iTunes Movies", "Cine.Ar",
+                        "Canva", "Capcut", "Spotify", "Personalizar", "Diseño Creativo", 
+                        "Desarrollo Web", "Cursos Online"
                     ];
                     
                     categories.forEach(category => {
@@ -3209,7 +3271,7 @@
             if (selectedCategory === null) {
                 // Seleccionar "Todas las categorías"
                 document.querySelectorAll('.category-item')[0].classList.add('active');
-                document.querySelectorAll('.category-item')[8].classList.add('active');
+                document.querySelectorAll('.category-item')[33].classList.add('active');
             } else {
                 // Encontrar y seleccionar la categoría específica
                 const categoryItems = document.querySelectorAll('.category-item');
@@ -5231,6 +5293,7 @@
     </script>
 </body>
 </html>
+
 
 
 
