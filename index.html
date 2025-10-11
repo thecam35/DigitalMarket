@@ -2467,12 +2467,10 @@
                     loadTransactionHistory();
                     loadSellersForChat(); // Cargar vendedores para el chat
                 } else if (targetSection === 'productsSection') {
-                    // CORRECCIÓN: Evitar duplicación de productos
-                    if (!productsLoaded) {
-                        loadProducts();
-                        loadCategories();
-                        productsLoaded = true;
-                    }
+                    // CORRECCIÓN: Cargar productos y categorías cada vez que se accede a la sección
+                    loadProducts();
+                    loadCategories();
+                    productsLoaded = true;
                 } else if (targetSection === 'myProductsSection') {
                     loadMyProducts();
                 } else if (targetSection === 'adminNotificationsSection') {
@@ -4906,7 +4904,7 @@
         
         // Cargar productos
         function loadProducts() {
-            productsList.innerHTML = '';
+            productsList.innerHTML = '<p>Cargando productos...</p>';
             
             let productsQuery = db.collection('productos')
                 .where('status', '==', 'active');
@@ -4923,6 +4921,8 @@
                         productsList.innerHTML = '<p>No hay productos disponibles.</p>';
                         return;
                     }
+                    
+                    productsList.innerHTML = '';
                     
                     querySnapshot.forEach((doc) => {
                         const product = doc.data();
@@ -5293,6 +5293,7 @@
     </script>
 </body>
 </html>
+
 
 
 
